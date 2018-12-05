@@ -141,7 +141,7 @@ public class ConcreteSyntax {
 			s = assignment();
 		} else if (token.getValue().equals("Comment")) {
 			token = input.nextToken();
-			statement();
+			s = statement();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -159,12 +159,15 @@ public class ConcreteSyntax {
 	private Assignment assignment() {
 		// Assignment --> Identifier = Expression ;
 		Assignment a = new Assignment();
+		Variable v = new Variable();
 		if (token.getType().equals("Identifier")) {
 			// TO BE COMPLETED
+			v.id = token.getValue();
+			a.target = v;
 			token = input.nextToken();
 			if(token.getValue().equals("=")) {
 				token = input.nextToken();
-				expression();
+				a.source = expression();
 				match(";");
 			}
 		} else
@@ -307,16 +310,21 @@ public class ConcreteSyntax {
 		// TO BE COMPLETED
 		token = input.nextToken();
 		match("(");
-		expression();
+		Expression e = expression();
 		token = input.nextToken();
 		match(")");
 		token = input.nextToken();
-		statement();
+		Statement s = statement();
 		if(input.nextToken().getType().equals("else")) {
 			token = input.nextToken();
 			token = input.nextToken();
-			statement();
+			 Statement st = statement();
+			 c.elsebranch = st;
 		}
+		
+		c.test = e;
+		c.thenbranch = s;
+		
 		return c;
 	}
 
@@ -326,10 +334,14 @@ public class ConcreteSyntax {
 		// TO BE COMPLETED
 		token = input.nextToken();
 		match("(");
-		expression();
+		Expression e = expression();
 		match(")");
 		token = input.nextToken();
-		statement();
+		Statement s = statement();
+		
+		l.test = e;
+		l.body = s;
+		
 		return l;
 	}
 
