@@ -62,6 +62,9 @@ public class ConcreteSyntax {
 	private Declarations declarations() {
 		// Declarations --> { Declaration }*
 		Declarations ds = new Declarations();
+		if (token.getType().equals("Other")) {
+			token = input.nextToken();
+		}
 		while (token.getValue().equals("int")
 				|| token.getValue().equals("boolean")) {
 			declaration(ds);
@@ -138,8 +141,7 @@ public class ConcreteSyntax {
 			s = assignment();
 		} else if (token.getType().equals("Other")) {
 			token = input.nextToken();
-			s = statement();
-
+			statement();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
@@ -305,14 +307,13 @@ public class ConcreteSyntax {
 		// TO BE COMPLETED
 		token = input.nextToken();
 		match("(");
-		token = input.nextToken();
 		expression();
 		token = input.nextToken();
 		match(")");
 		token = input.nextToken();
 		statement();
-		token = input.nextToken();
-		if(token.getType().equals("else")) {
+		if(input.nextToken().getType().equals("else")) {
+			token = input.nextToken();
 			token = input.nextToken();
 			statement();
 		}
@@ -326,6 +327,7 @@ public class ConcreteSyntax {
 		token = input.nextToken();
 		match("(");
 		expression();
+		match(")");
 		token = input.nextToken();
 		statement();
 		return l;
