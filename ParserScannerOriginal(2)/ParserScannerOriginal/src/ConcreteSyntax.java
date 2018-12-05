@@ -62,7 +62,7 @@ public class ConcreteSyntax {
 	private Declarations declarations() {
 		// Declarations --> { Declaration }*
 		Declarations ds = new Declarations();
-		if (token.getType().equals("Other")) {
+		if (token.getValue().equals("Comment")) {
 			token = input.nextToken();
 		}
 		while (token.getValue().equals("int")
@@ -139,7 +139,7 @@ public class ConcreteSyntax {
 		} else if (token.getType().equals("Identifier")) { // Assignment
 			// TO BE COMPLETED
 			s = assignment();
-		} else if (token.getType().equals("Other")) {
+		} else if (token.getValue().equals("Comment")) {
 			token = input.nextToken();
 			statement();
 		} else

@@ -57,6 +57,7 @@ public class TokenStream {
 				// skip rest of line - it's a comment.
 				// TO BE COMPLETED
 				// look for <cr>, <lf>, <ff>
+				t.setValue("Comment");
 				while(!isEndOfLine(nextChar)){
 					nextChar = readChar();
 				}
